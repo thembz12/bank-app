@@ -1,7 +1,7 @@
 const { cardAndCvv } = require("../controller/cardAndCvvController")
 const { signUp, allUsers, loginUser, getOneUser } = require("../controller/controller")
 const { comingIn,comingOut } = require("../controller/history")
-const { deposit, transfer,createPin } = require("../controller/transactionController")
+const { deposit, transfer,createPin, getLoan } = require("../controller/transactionController")
 
 const router = require("express").Router()
 
@@ -15,6 +15,7 @@ router.post("/transfer/:id",transfer)
 router.post("/comingIn/:id",comingIn)
 router.post("/comingOut/:id",comingOut)
 router.post("/createCardNumber/:id",cardAndCvv)
+router.post("/getLoan/:id", getLoan)
 
 
 module.exports = router

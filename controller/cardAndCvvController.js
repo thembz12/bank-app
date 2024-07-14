@@ -18,7 +18,8 @@ exports.cardAndCvv = async (req,res)=>{
             return Math.floor(Math.random()*1000)
         }
 
-        const number =await cardAndCvvModel({cardNumber: createdCardNumber(), cvv: createdCvvNumber()})
+        const number =await cardAndCvvModel({cardNumber: createdCardNumber(), cvv: createdCvvNumber(), userId:id })
+        
 
         await number.save()
         res.status(200).json({

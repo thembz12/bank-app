@@ -90,34 +90,3 @@ exports.getOneUser = async (req,res)=>{
         res.status(500).json(error.meesage)
     }
 }
-
-exports.createPin = async (req,res)=>{
-    try {
-        
-        const {id} = req.params
-        const {pin}=req.body
-
-        const createPin = {pin}
-
-        const user = await userModel.findOneAndUpdate(id, createPin, {new:true})
-        
-       await user.save()
-
-        res.status(200).json({
-                message:"pin created successfully", data
-            })
-    } catch (error) {
-        res.status(500).json(error.message)
-        
-    }
-}
-
-exports.Transfer = async (req,res)=>{
-    try {
-        
-        
-    } catch (error) {
-        res.status(500).json(error.message)
-        
-    }
-}

@@ -125,3 +125,43 @@ exports.transfer = async(req,res)=>{
         })
     }
 }
+
+exports.Transfer = async (req,res)=>{
+    try {
+        
+        
+    } catch (error) {
+        res.status(500).json(error.message)
+        
+    }
+}
+
+exports.getLoan = async(req,res)=>{
+    try {
+        const {id} = req.params
+        const {amount} = req.body
+
+        const user = await userModel.findById(id)
+
+        const credit = user.accountBalance += amount
+
+        user.accountBalance = credit
+
+        // const deposit = await depositModel.create({
+        //     userId:id,
+        //     amount
+        // })
+
+        await user.save()
+
+        return res.status(200).json({
+            message: ` a loan of ${amount} have been sent to your account `,
+            data:user
+        })
+         
+    } catch (error) {
+        res.status(500).json({
+            message:`${error.message}`
+        })
+    }
+}
