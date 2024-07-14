@@ -126,15 +126,6 @@ exports.transfer = async(req,res)=>{
     }
 }
 
-exports.Transfer = async (req,res)=>{
-    try {
-        
-        
-    } catch (error) {
-        res.status(500).json(error.message)
-        
-    }
-}
 
 exports.getLoan = async(req,res)=>{
     try {
@@ -146,11 +137,6 @@ exports.getLoan = async(req,res)=>{
         const credit = user.accountBalance += amount
 
         user.accountBalance = credit
-
-        // const deposit = await depositModel.create({
-        //     userId:id,
-        //     amount
-        // })
 
         await user.save()
 
