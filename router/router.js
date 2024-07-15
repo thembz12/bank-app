@@ -1,5 +1,5 @@
 const { cardAndCvv } = require("../controller/cardAndCvvController")
-const { signUp, allUsers, loginUser, getOneUser } = require("../controller/controller")
+const { signUp, allUsers, loginUser, getOneUser, forgetPassword, resetPassword } = require("../controller/controller")
 const { comingIn,comingOut } = require("../controller/history")
 const { deposit, transfer,createPin, getLoan } = require("../controller/transactionController")
 
@@ -16,6 +16,8 @@ router.post("/comingIn/:id",comingIn)
 router.post("/comingOut/:id",comingOut)
 router.post("/createCardNumber/:id",cardAndCvv)
 router.post("/getLoan/:id", getLoan)
+router.post("/forgetpassword", forgetPassword)
+router.post("/resetpassword", resetPassword)
 
 
 module.exports = router

@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken")
 const transactionModel = require ("../model/depositModel.js")
 const userModel = require ("../model/userModel.js")
 const bcrypt = require ("bcrypt")
+const sendMail = require ("../helpers/email.js")
+const html = require ("../helpers/html.js")
 
 exports.signUp = async (req,res)=>{
     try{
@@ -90,3 +92,47 @@ exports.getOneUser = async (req,res)=>{
         res.status(500).json(error.meesage)
     }
 }
+
+exports.forgetPassword = async (req, res) => {
+    try {
+      const { email } = req.body
+      const userExist = await userModel.findOne({ email })
+      if (!userExist) {
+        res.status(400).json({ message: 'user not found' })
+      }
+      const resetToken = jwt.sign({email: userExist.email}, process.env.JWT_SECRET, {expiresIn: '20mins'})
+    //   console.log(generateResetToken);
+    //   await userModel.findByIdAndUpdate(userExist._id, { resetToken })
+      const resetLink = `${req.protocol}://${req.get("host")}/router/verify${userExist._id}/${resetToken}`
+      
+      let mailOptions ={
+        email:userExist.email,
+        subject:"verification email",
+        html: html(resetLink,userExist.fullname),
+       }
+
+           await userExist.save()
+           await sendMail(mailOptions)
+      // Send reset link to user's email
+      res.status(200).json({ message: 'reset link sent to email' })
+    } catch (error) {
+      res.status(500).json(error.message)
+    }
+  }
+  
+  exports.resetPassword = async (req, res) => {
+    try {
+      const { email, password } = req.body
+      const userExist = await userModel.findOne({ email }) 
+      if (!userExist) {
+        res.status(400).json({ message: 'invalid reset token' })
+      }
+      const saltedPassword = await bcrypt.genSalt(10)
+      const hashPassword = await bcrypt.hash(password, saltedPassword)
+      await userModel.findByIdAndUpdate(userExist._id, { password: hashPassword, email:email })
+      res.status(200).json({ message: 'password reset successfully' })
+    } catch (error) {
+      res.status(500).json(error.message)
+    }
+  }
+   

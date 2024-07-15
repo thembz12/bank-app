@@ -150,4 +150,4 @@ exports.getLoan = async(req,res)=>{
             message:`${error.message}`
         })
     }
-}
+} 
