@@ -25,9 +25,7 @@ exports.signUp = async (req,res)=>{
         }
     }catch(error){
         res.status(500).json(error.message)
-
-    }
-}
+}}
 
 exports.allUsers = async (req,res)=>{
     try {
@@ -98,17 +96,16 @@ exports.forgetPassword = async (req, res) => {
       const { email } = req.body
       const userExist = await userModel.findOne({ email })
       if (!userExist) {
-        res.status(400).json({ message: 'user not found' })
+        res.status(404).json({ message: 'user not found' })
       }
       const resetToken = jwt.sign({email: userExist.email}, process.env.JWT_SECRET, {expiresIn: '20mins'})
-    //   console.log(generateResetToken);
-    //   await userModel.findByIdAndUpdate(userExist._id, { resetToken })
-      const resetLink = `${req.protocol}://${req.get("host")}/router/verify${userExist._id}/${resetToken}`
+    
+      const resetLink = `${req.protocol}://${req.get("host")}/router/verify/${userExist._id}/${resetToken}`
       
       let mailOptions ={
         email:userExist.email,
         subject:"verification email",
-        html: html(resetLink,userExist.fullname),
+        html: html.forgetPasswordTemplate(resetLink,userExist.fullname),
        }
 
            await userExist.save()
@@ -122,17 +119,54 @@ exports.forgetPassword = async (req, res) => {
   
   exports.resetPassword = async (req, res) => {
     try {
-      const { email, password } = req.body
+        const {token}= req.params
+      const {password} = req.body
+      const {email} = jwt.verify(token, process.env.JWT_SECRET)
       const userExist = await userModel.findOne({ email }) 
       if (!userExist) {
         res.status(400).json({ message: 'invalid reset token' })
       }
-      const saltedPassword = await bcrypt.genSalt(10)
-      const hashPassword = await bcrypt.hash(password, saltedPassword)
-      await userModel.findByIdAndUpdate(userExist._id, { password: hashPassword, email:email })
+      const saltedPassword =  bcrypt.genSalt(10)
+      const hashedPassword =  bcrypt.hash(password, saltedPassword)
+      
+      userExist.password = hashedPassword
+      await user.save()
       res.status(200).json({ message: 'password reset successfully' })
     } catch (error) {
       res.status(500).json(error.message)
     }
   }
    
+  
+  exports.logOut = async (req, res) => {
+    try {
+        const auth = req.headers.authorization;
+        const token = auth.split(' ')[1];
+
+        if(!token){
+            return res.status(401).json({
+                message: 'invalid token'
+            })
+        }
+        
+        const { email } = jwt.verify(token, process.env.JWT_SECRET);
+        
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        user.blackList.push(token);
+        
+        await user.save();
+        
+        res.status(200).json({
+            message: "User logged out successfully"
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+}

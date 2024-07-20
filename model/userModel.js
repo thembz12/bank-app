@@ -51,7 +51,9 @@ methodOfSavings:{
     type:String,
     require:true,
     enum:["savings", "current"], default:"savings"
-}
+},
+
+blackList:[],
 
     },{timestamps:true})
 
