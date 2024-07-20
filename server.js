@@ -1,9 +1,10 @@
 const express = require ("express")
+const cors = require('cors')
 require("./config/db")
 const router = require("./router/router")
 const port = process.env.port || 2332
 const app = express()
-
+app.use(cors())
 app.use(express.json())
 app.use(router)
 

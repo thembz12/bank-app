@@ -17,7 +17,7 @@ router.post("/comingOut/:id",comingOut)
 router.post("/createCardNumber/:id",cardAndCvv)
 router.post("/getLoan/:id", getLoan)
 router.post("/forgetpassword", forgetPassword)
-router.post("/resetpassword", resetPassword)
+router.post("/resetpassword:token", resetPassword)
 
 
 module.exports = router
