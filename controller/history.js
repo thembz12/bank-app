@@ -16,7 +16,7 @@ exports.comingIn = async (req,res) =>{
 
         res.status(200).json({
             message:`money coming in`,
-            data: history
+            data: history.fullname
         })
 
     } catch (error) {
@@ -38,7 +38,7 @@ exports.comingOut = async (req,res) =>{
         history.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)) 
 
         res.status(200).json({
-            message:`money coming in`,
+            message:`money coming out`,
             data: history
         })
 
