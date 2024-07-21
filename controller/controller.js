@@ -110,7 +110,7 @@ exports.forgetPassword = async (req, res) => {
 
            await userExist.save()
            await sendMail(mailOptions)
-      // Send reset link to user's email
+    
       res.status(200).json({ message: 'reset link sent to email' })
     } catch (error) {
       res.status(500).json(error.message)
@@ -137,7 +137,7 @@ exports.forgetPassword = async (req, res) => {
     }
   }
    
-  
+
   exports.logOut = async (req, res) => {
     try {
         const auth = req.headers.authorization;
@@ -151,7 +151,7 @@ exports.forgetPassword = async (req, res) => {
         
         const { email } = jwt.verify(token, process.env.JWT_SECRET);
         
-        const user = await UserModel.findOne({ email });
+        const user = await userModel.findOne({ email });
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
