@@ -3,32 +3,33 @@ const mongoose = require ("mongoose")
 const userSchema = new mongoose.Schema({
 fullname:{
     type:String, 
-    require:true,
-    trim:true,lowercase:true},
+    required:true,
+    trim:true,
+    lowercase:true},
 
 email:{
     type:String, 
-    require:true, 
     unique:true, 
-    trim:true,lowercase:true},
+    required:true,
+    trim:true,
+    lowercase:true},
 
-address:{type:String,
-    type:String, 
-    require:true
+address:{type:String, 
+    required:true
 },
 
 dob:{type:String,
-    require:true,
+    required:true,
     },
 
 password:{
     type:String, 
-    require:true
+    required:true
 },
 
 phoneNumber:{
     type:String, 
-    require:true,
+    required:true,
     trim:true
 },
 
@@ -39,7 +40,7 @@ phoneNumber:{
 
 gender:{
     type:String, 
-    require:true, enum: ["male", "female"], lowercase:true},
+    required:true, enum: ["male", "female"], lowercase:true},
 
 pin:{
     type:Number,
@@ -49,7 +50,7 @@ pin:{
 
 methodOfSavings:{
     type:String,
-    require:true,
+    required:true,
     enum:["savings", "current"], default:"savings"
 },
 

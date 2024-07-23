@@ -16,7 +16,7 @@ exports.comingIn = async (req,res) =>{
 
         res.status(200).json({
             message:`money coming in`,
-            data: history.fullname
+            data: history
         })
 
     } catch (error) {
