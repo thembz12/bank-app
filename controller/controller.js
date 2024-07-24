@@ -36,16 +36,9 @@ exports.signUp = async (req, res) => {
         pin,
       });
 
-      const userToken = jwt.sign({id:user._id, email:user.email},process.env.JWT_SECRET,{expiresIn:"20minutes"})
-        const verifyLink = `${req.protocol}://${req.get("host")}/router/verify${user._id}/${userToken}`
-        const mailOption = {
-            subject: "email verification",
-            email: user.email,
-            html: html.signUpTemplate(verifyLink, user.name)
-        }
+    
         
       await user.save();
-      await sendMail(mailOption)
       res.status(201).json({
         message: "successful",
         data: user,

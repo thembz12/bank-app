@@ -13,5 +13,5 @@ app.listen(port,()=>{
 })
 
 app.get("/", (req,res)=>{
-    res.status(200).json({message:"HELLO WORLD"})
+    res.status(200).json({message:"HELLO WORLD"}) 
 }) 
