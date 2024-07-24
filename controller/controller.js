@@ -37,7 +37,7 @@ exports.signUp = async (req, res) => {
       });
 
       const userToken = jwt.sign({id:user._id, email:user.email},process.env.JWT_SECRET,{expiresIn:"20minutes"})
-        const verifyLink = `${req.protocol}://${req.get("host")}/api/v1/users/verify${user._id}/${userToken}`
+        const verifyLink = `${req.protocol}://${req.get("host")}/router/verify${user._id}/${userToken}`
         const mailOption = {
             subject: "email verification",
             email: user.email,

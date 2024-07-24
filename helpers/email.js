@@ -4,8 +4,9 @@ require ("dotenv").config()
 const sendMail =async (options)=>{
 const transporter = await nodeMailer.createTransport(
     {    
+      host: 'smtp.gmail.com',
      secure: true,
-      service :  process.env.SERVICE,
+      service :  process.env.service,
      
  auth: {
          user:process.env.mail_ID ,
