@@ -19,7 +19,7 @@ router.post("/logout", logOut)
 
 
 router.post("/deposit/:id", deposit)
-router.post("/createPin/:id", createPin)
+router.put("/createPin/:id", createPin)
 
 router.post("/transfer/:id",transfer)
 router.post("/getLoan/:id", getLoan)
