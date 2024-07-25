@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const transactionModel = require("../model/depositModel.js");
 const userModel = require("../model/userModel.js");
 const bcrypt = require("bcrypt");
-const sendMail = require("../helpers/email.js");
 const html = require("../helpers/html.js");
 
 exports.signUp = async (req, res) => {
@@ -166,6 +165,40 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
+exports.changePassword = async (req, res) => {
+  try {
+   const {token}=req.params
+   const {password, oldPassword}=req.body
+  
+   const {email} = jwt.verify(token, process.env.JWT_SECRET)
+   const user = await userModel.findOne({email})
+    if(!user){
+      return res.status(404).json({
+        message:"user not found"
+      })
+    }
+
+    const isMatchPassword = jwt.compare(password, oldPassword)
+    if(!isMatchPassword){
+      return res.status(401).json({
+        message:"old password does not match"
+      })
+    }
+
+    const saltedPassword = bcrypt.genSalt(10)
+    const hashedPassword = bcrypt.hash(password,  saltedPassword)
+
+    user.password = hashedPassword
+    await user.save()
+
+    res.status(200).json({ message: "password changed" });
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+
 
 exports.logOut = async (req, res) => {
   try {
