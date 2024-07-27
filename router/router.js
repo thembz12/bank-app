@@ -27,7 +27,7 @@ router.post("/getLoan/:id", getLoan)
 router.post("/comingIn/:id",comingIn)
 router.post("/comingOut/:id",comingOut)
 
-
+ 
 router.post("/createCardNumber/:id",cardAndCvv)
 
 

@@ -6,6 +6,10 @@ const html = require("../helpers/html.js");
 
 exports.signUp = async (req, res) => {
   try {
+
+    const newAccNumber = function (){
+      return Math.floor(Math.random()*10000000000)
+  }
     const {
       fullname,
       email,
@@ -17,12 +21,15 @@ exports.signUp = async (req, res) => {
       methodOfSavings,
       password,
     } = req.body;
+
     const userExist = await userModel.findOne({ email });
     if (userExist) {
       res.status(400).json({ message: "user already exist" });
-    } else {
+      
+    }else {
       const saltedpassword = await bcrypt.genSalt(10);
       const hashedpassword = await bcrypt.hash(password, saltedpassword);
+      
       const user = new userModel({
         fullname,
         email,
@@ -33,15 +40,17 @@ exports.signUp = async (req, res) => {
         methodOfSavings,
         password: hashedpassword,
         pin,
+        accountNumber: newAccNumber(),
       });
 
     
         
       await user.save();
+      //await newAccNumber.save()
       res.status(201).json({
-        message: "successful",
+        message: "Account created sucessfully",
         data: user,
-      });
+      }); 
     }
   } catch (error) {
     res.status(500).json(error.message);

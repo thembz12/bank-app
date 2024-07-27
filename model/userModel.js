@@ -46,7 +46,14 @@ pin:{
     type:Number,
     default:0
 },
-
+accountNumber:{
+    type:Number,
+    default:0
+},
+isAdmin:{
+    type:String,
+    default:false
+},
 
 methodOfSavings:{
     type:String,
