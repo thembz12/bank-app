@@ -16,6 +16,7 @@ router.post("/resetpassword:token", resetPassword)
 router.post("/changepassword:token", changePassword)
 router.post("/logout", logOut)
  
+router.put("/make-admin/:id", makeAdmin)
 
 
 router.post("/deposit/:id", deposit)

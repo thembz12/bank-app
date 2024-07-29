@@ -241,3 +241,21 @@ exports.logOut = async (req, res) => {
     });
   }
 };
+
+exports.makeAdmin = async (req,res)=>{
+  try {
+      const userId = req.params.id
+      const user = await userModel.findById(userId)
+      if(!user){
+          return res.status(404).json({message:"user not found"})
+      }
+
+      user.isAdmin = true
+      await user.save()
+      res.status(200).json({message:"user now an admin", data:user})
+      
+  } catch (error) {
+      res.status(500).json(error.message)
+      
+  }
+}
