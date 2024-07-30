@@ -3,6 +3,7 @@ const transactionModel = require("../model/depositModel.js");
 const userModel = require("../model/userModel.js");
 const bcrypt = require("bcrypt");
 const html = require("../helpers/html.js");
+const sendMail = require ("../helpers/email.js")
 
 exports.signUp = async (req, res) => {
   try {
@@ -42,11 +43,17 @@ exports.signUp = async (req, res) => {
         pin,
         accountNumber: newAccNumber(),
       });
+      const userToken = jwt.sign({id:user.email},process.env.JWT_SECRET,{expiresIn:"20minutes"})
+        const verifyLink = `${req.protocol}://${req.get("host")}/router/verify${user._id}/${userToken}`
 
-    
-        
-      await user.save();
-      //await newAccNumber.save()
+       let mailOptions ={
+        email:user.email,
+        subject:"verification email",
+        html: html.signUpTemplate(verifyLink,user.fullname),
+       }
+
+           await user.save()
+           await sendMail(mailOptions)
       res.status(201).json({
         message: "Account created sucessfully",
         data: user,
