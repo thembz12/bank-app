@@ -25,8 +25,8 @@ router.put("/createPin/:id", createPin)
 router.post("/transfer/:id",transfer)
 router.post("/getLoan/:id", getLoan)
 
-router.post("/comingIn/:id",comingIn)
-router.post("/comingOut/:id",comingOut)
+router.get("/comingIn/:id",comingIn)
+router.get("/comingOut/:id",comingOut)
 
  
 router.post("/createCardNumber/:id",cardAndCvv)

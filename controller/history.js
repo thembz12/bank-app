@@ -27,13 +27,11 @@ exports.comingIn = async (req,res) =>{
 
 exports.comingOut = async (req,res) =>{
     try {
-        const id = req.params.id
-
-
-
+        const {id} = req.params.id
+        
         const transfers = await transferModel.find({userId:id}).lean()
 
-        const history = [...transfers]
+        const history = [...transfers] 
         
         history.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)) 
 

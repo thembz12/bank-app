@@ -104,7 +104,7 @@ exports.transfer = async(req,res)=>{
         receiver.accountBalance = newReceive
 
         const transfer = await transferModel.create({
-            accountNumber:sender.accountNumber,
+            accountNumber:sender.fullname,accountNumber, 
             receiverName:receiver.fullname,
             amount,
             description,
@@ -126,7 +126,7 @@ exports.transfer = async(req,res)=>{
     }
 }
 
-
+ 
 exports.getLoan = async(req,res)=>{
     try {
         const {id} = req.params
