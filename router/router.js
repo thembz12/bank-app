@@ -1,5 +1,5 @@
 const { cardAndCvv } = require("../controller/cardAndCvvController")
-const { signUp, allUsers, loginUser, getOneUser, forgetPassword, resetPassword, logOut, changePassword } = require("../controller/controller")
+const { signUp, allUsers, loginUser, getOneUser, forgetPassword, resetPassword, logOut, changePassword, makeAdmin } = require("../controller/controller")
 const { comingIn,comingOut } = require("../controller/history")
 const { deposit, transfer,createPin, getLoan } = require("../controller/transactionController")
 const {authenticate} = require ("../middleware/auth.js")

@@ -14,7 +14,10 @@ const transferSchema = new mongoose.Schema({
     },
     description:{
         type:String
-    }
+    },
+    accountNumber:{
+        type:String,
+    required:true}
 
 }, {timestamps:true})
 

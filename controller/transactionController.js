@@ -68,12 +68,12 @@ exports.createPin = async(req,res)=>{
 exports.transfer = async(req,res)=>{
     try {
         const id = req.params.id
-        const {fullname,amount,description,pin} = req.body
+        const {accountNumber,amount,description,pin} = req.body
 
-        const receiver = await userModel.findOne({fullname})
+        const receiver = await userModel.findOne({accountNumber})
         if(!receiver){
             return res.status(400).json({
-                message:'No user with this name'
+                message:'No user with this account number'
             })
         }
 
@@ -104,7 +104,7 @@ exports.transfer = async(req,res)=>{
         receiver.accountBalance = newReceive
 
         const transfer = await transferModel.create({
-            accountName:sender.fullname,
+            accountNumber:sender.accountNumber,
             receiverName:receiver.fullname,
             amount,
             description,
