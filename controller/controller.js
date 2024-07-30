@@ -11,6 +11,13 @@ exports.signUp = async (req, res) => {
     const newAccNumber = function (){
       return Math.floor(Math.random()*10000000000)
   }
+
+  const createdCardNumber = function (){
+    return Math.floor(Math.random()*10000000000000000)
+}
+const createdCvvNumber = function(){
+    return Math.floor(Math.random()*1000)
+}
     const {
       fullname,
       email,
@@ -42,6 +49,8 @@ exports.signUp = async (req, res) => {
         password: hashedpassword,
         pin,
         accountNumber: newAccNumber(),
+        cardNumber: createdCardNumber(),
+        cvv:createdCvvNumber()
       });
       const userToken = jwt.sign({id:user.email},process.env.JWT_SECRET,{expiresIn:"20minutes"})
         const verifyLink = `${req.protocol}://${req.get("host")}/router/verify${user._id}/${userToken}`

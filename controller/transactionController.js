@@ -7,7 +7,7 @@ const pinModel = require ("../model/pinModel.js")
 exports.deposit = async(req,res)=>{
     try {
         const {id} = req.params
-        const {amount} = req.body
+        const {amount,description,accountNumber} = req.body
 
         const user = await userModel.findById(id)
 
@@ -17,7 +17,9 @@ exports.deposit = async(req,res)=>{
 
         const deposit = await depositModel.create({
             userId:id,
-            amount
+            amount,
+            description,
+            accountNumber
         })
 
         await user.save()

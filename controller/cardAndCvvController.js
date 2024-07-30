@@ -4,6 +4,13 @@ const userModel = require ("../model/userModel")
 exports.cardAndCvv = async (req,res)=>{
     try{
         const id = req.params.id
+
+        const createdCardNumber = function (){
+            return Math.floor(Math.random()*10000000000000000)
+        }
+        const createdCvvNumber = function(){
+            return Math.floor(Math.random()*1000)
+        }
            
         const user = await userModel.findById(id)
         if(!user){
@@ -11,14 +18,12 @@ exports.cardAndCvv = async (req,res)=>{
                 message:"user ID is incorrect"
             })
         } 
-        const createdCardNumber = function (){
-            return Math.floor(Math.random()*10000000000000000)
-        }
-        const createdCvvNumber = function(){
-            return Math.floor(Math.random()*1000)
-        }
 
-        const number =await cardAndCvvModel({cardNumber: createdCardNumber(), cvv: createdCvvNumber(), userId:id })
+        const number = new cardAndCvvModel({
+            CardNumber:createdCardNumber(),
+            cvv:createdCvvNumber(),
+            userID:id
+    })
         
 
         await number.save()

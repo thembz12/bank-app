@@ -54,12 +54,21 @@ isAdmin:{
     type:String,
     default:false
 },
+cardNumber:{type:Number,
+    default:0
+},
+
+cvv:{type:Number,
+    default:0
+
+},
 
 methodOfSavings:{
     type:String,
     required:true,
     enum:["savings", "current"], default:"savings"
 },
+
 
 blackList:[],
 
